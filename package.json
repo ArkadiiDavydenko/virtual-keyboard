@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "style": "sass --watch src/sass/style.scss .src/sass/style.css",
+    "style": "sass --watch src/sass/style.scss src/sass/style.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/ArkadiiDavydenko/virtual-keyboard/issues"
   },
-  "homepage": "https://github.com/ArkadiiDavydenko/virtual-keyboard#readme"
+  "homepage": "https://github.com/ArkadiiDavydenko/virtual-keyboard#readme",
+  "dependencies": {
+    "normalize.css": "^8.0.1"
+  }
 }

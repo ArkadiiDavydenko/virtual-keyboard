@@ -1,19 +1,3 @@
-@import "../virtual-keyboard/node_modules/normalize.css/normalize.css";
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Arial";
-}
-
-.title {
-  color: #444444;
-  font-size: 2rem;
-}
-
 .keyboard {
   display: flex;
   flex-direction: column;
@@ -50,6 +34,7 @@ body {
   -webkit-tap-highlight-color: transparent;
   transition: all 0.1s;
   flex: 0.5 1 45px;
+
 }
 
 .keyboard__key:hover {
@@ -60,7 +45,6 @@ body {
   border-radius: 35%;
   box-shadow: 0 0 17px rgb(8, 9, 112);
 }
-
 .keyboard__key_active {
   border-radius: 35%;
   box-shadow: 0 0 17px rgb(8, 9, 112);
@@ -78,32 +62,3 @@ body {
 .keyboard__key_extra-long {
   flex: 20 1 45px;
 }
-
-.textarea {
-  display: block;
-  width: 700px;
-  height: 200px;
-  margin: 10px auto 10px;
-  padding: 10px;
-  font-size: 18px;
-  color: #444444;
-  overflow: auto;
-  border-style: solid;
-  border-color: rgb(133, 133, 133);
-}
-
-.description, .language {
-  font-size: 1.2rem;
-  text-align: center;
-}
-
-.wrapper {
-  margin: 0 auto;
-  max-width: 900px;
-}
-
-.header {
-  text-align: center;
-}
-
-/*# sourceMappingURL=style.css.map */

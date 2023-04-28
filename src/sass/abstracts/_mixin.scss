@@ -1,0 +1,6 @@
+
+@mixin flex($direction, $width: 100% ) {
+  display: flex;
+  flex-direction: $direction;
+  width: $width;
+}

@@ -1,6 +1,19 @@
+@import "../virtual-keyboard/node_modules/normalize.css/normalize.css";
+
 //Abstracts
 @import "abstracts/constants";
+@import "abstracts/mixin";
 
 //Base
 @import "base/base";
-@import "base/reset";
+
+//Components
+@import "components/keyboard";
+@import "components/textarea";
+@import "components/description";
+
+//Layouts
+@import "layout/wrapper";
+@import "layout/header";
+
+
