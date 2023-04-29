@@ -1,4 +1,4 @@
-@import "../virtual-keyboard/node_modules/normalize.css/normalize.css";
+//@import "../virtual-keyboard/node_modules/normalize.css/normalize.css";
 
 //Abstracts
 @import "abstracts/constants";
@@ -6,6 +6,7 @@
 
 //Base
 @import "base/base";
+@import "base/reset";
 
 //Components
 @import "components/keyboard";
