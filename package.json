@@ -17,7 +17,7 @@
     "url": "https://github.com/ArkadiiDavydenko/virtual-keyboard/issues"
   },
   "homepage": "https://github.com/ArkadiiDavydenko/virtual-keyboard#readme",
-  "dependencies": {
-    "normalize.css": "^8.0.1"
+  "devDependencies": {
+    "eslint": "^8.39.0"
   }
 }
