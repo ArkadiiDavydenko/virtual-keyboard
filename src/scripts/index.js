@@ -35,9 +35,18 @@ const KEY_CODE_TABLE = [
 ];
 
 function init() {
-
   let upperLetter = false;
-  let engLanguage = true;
+
+  // let engLanguage = true;
+  let engLanguage;
+  // console.log(engLanguage)
+  // localStorage.getItem('lang')?localStorage.getItem('lang'):engLanguage = 'en';
+  // localStorage.setItem('lang', `${engLanguage}`);
+console.log(localStorage.getItem('lang'));
+// console.log(localStorage.getItem('lang'));
+// console.log("localStorage");
+// localStorage.setItem('lang', `${engLanguage}`);
+  // localStorage.getItem('lang') === 'ru'
 
   const WRAPPER = new Element(document.body, 'div', 'wrapper');
   const HEADER = new Element(WRAPPER.node, 'header', 'header');
@@ -45,8 +54,8 @@ function init() {
   TITLE.node.textContent = 'Виртуальная клавиатура';
 
   const MAIN = new Element(WRAPPER.node, 'main', 'main');
-  // MAIN.node.innerHTML = `<textarea class = "textarea" rows="5" cols="50" disabled></textarea>`
-  MAIN.node.innerHTML = `<textarea class = "textarea" rows="5" cols="50" autofocus></textarea>`
+  MAIN.node.innerHTML = `<textarea class = "textarea" rows="5" cols="50" disabled></textarea>`
+  // MAIN.node.innerHTML = `<textarea class = "textarea" rows="5" cols="50" autofocus></textarea>`
   const TEXTAREA = document.querySelector('.textarea');
 
   const KEYBOARD = new Element(MAIN.node, 'div', 'keyboard');
@@ -184,24 +193,62 @@ function init() {
   }
 
 //Изменение языка
-  function changeLanguage(element) {
-    if (element === 'ControlLeft' && element === 'ControlLeft') {
-      if (engLanguage) {
+    function changeLanguage(element) {
+    //
+    //   console.log(keyArr[0] == 'ControlLeft')
+    //   console.log(keyArr)
+      console.log(engLanguage)
+    // if (keyArr[0] == 'ControlLeft' && element === 'AltLeft') {
+    // if (element === 'ControlLeft' && element === 'AltLeft') {
+    //   keyArr.splice(0,keyArr.length);
+      if (engLanguage=== 'en') {
         let elements = document.querySelectorAll('.keyboard__key');
         for (let i = 0; i < elements.length; i++) {
           elements[i].textContent = `${KEY_RUS[i]}`;
         }
-        engLanguage = false;
+        // engLanguage = false;
+        engLanguage = 'ru';
+        localStorage.setItem('lang', `${engLanguage}`);
       } else {
+        console.log('2')
         let arrEng = KEY_ENG.flat();
         let elements = document.querySelectorAll('.keyboard__key');
         for (let i = 0; i < elements.length; i++) {
           elements[i].textContent = `${arrEng[i]}`;
         }
-        engLanguage = true;
-      }
+        // engLanguage = true;
+        engLanguage = 'en';
+        localStorage.setItem('lang', `${engLanguage}`);
+      // }
     }
   }
+
+  function runOnKeys(func, ...codes) {
+    let pressed = new Set();
+
+    document.addEventListener('keydown', function(event) {
+      pressed.add(event.code);
+
+      for (let code of codes) {
+        if (!pressed.has(code)) {
+          return;
+        }
+      }
+      pressed.clear();
+      func();
+    });
+    document.addEventListener('keyup', function(event) {
+      pressed.delete(event.code);
+    });
+
+  }
+
+  runOnKeys(
+    () => changeLanguage(),
+    "ControlLeft",
+    "AltLeft"
+  );
+
 
   function capsLock(element) {
     if (element === 'CapsLock') {
@@ -223,8 +270,8 @@ function init() {
 
   //Вывод текста в textarea
   document.querySelectorAll('.keyboard__key').forEach(element => {
-    element.addEventListener('mousedown', (e) => {
-      TEXTAREA.focus();
+    element.addEventListener('mousedown', () => {
+      // TEXTAREA.focus();
       useKey(element.dataset.keycode);
       capsLock(element.dataset.keycode);
       deleteElement(element.dataset.keycode);
@@ -234,23 +281,24 @@ function init() {
     })
   })
 
-  //события текстареа
-  TEXTAREA.addEventListener ('blur', () => {
-    TEXTAREA.focus();
-  })
+  // //события текстареа
+  // TEXTAREA.addEventListener ('blur', () => {
+  //   TEXTAREA.focus();
+  // })
 
 
   document.querySelectorAll('.keyboard__key').forEach(element => {
-    element.addEventListener('mouseup', (e) => {
-      TEXTAREA.focus();
+    element.addEventListener('mouseup', () => {
+      // TEXTAREA.focus();
       useKeyUp(element.dataset.keycode);
     })
   })
 
   //События на клавиатуре
   window.addEventListener('keydown', function (event) {
-    TEXTAREA.focus();
-    changeLanguage(event.code);
+    // TEXTAREA.focus();
+    // changeLanguage(event.code);
+    // prepareChange(event.code);
     useKey(event.code);
     capsLock(event.code);
     deleteElement(event.code);
@@ -266,7 +314,7 @@ function init() {
 
   window.addEventListener('keyup', function (event) {
     useKeyUp(event.code);
-    TEXTAREA.focus();
+    // TEXTAREA.focus();
     let elements = document.querySelectorAll('.keyboard__key');
     for (let i = 0; i < elements.length; i++) {
       if (elements[i].dataset.keycode === `${event.code}`) {
@@ -276,6 +324,25 @@ function init() {
   });
 
 
+  //Установка языка при обнавлении
+  if (!localStorage.getItem('lang')) {
+    console.log('1')
+    engLanguage = 'en'
+    localStorage.setItem('lang', `${engLanguage}`);
+  }
+  else if (localStorage.getItem('lang') === 'en') {
+    engLanguage = 'en'
+    console.log('1en')
+  }
+  else {
+    engLanguage = 'ru'
+    console.log('1ru')
+    let elements = document.querySelectorAll('.keyboard__key');
+    for (let i = 0; i < elements.length; i++) {
+      elements[i].textContent = `${KEY_RUS[i]}`;
+    }
+    localStorage.setItem('lang', `${engLanguage}`);
+  }
 
 }
 
