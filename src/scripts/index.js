@@ -12,7 +12,7 @@ class Element {
 
 const KEY_ENG = [
   ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',],
-  ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\'],
+  ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\', 'Del'],
   ['Caps lock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '"', 'Enter'],
   ['Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '?', '▲', 'Shift'],
   ['Ctrl', 'Win', 'Alt', 'Space', 'Alt', '◄', '▼', '►', 'Ctrl']
@@ -20,7 +20,7 @@ const KEY_ENG = [
 
 const KEY_RUS = [
   '`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
-  'Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\',
+  'Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\', 'Del',
   'Caps lock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter',
   'Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', '▲', 'Shift',
   'Ctrl', 'Win', 'Alt', 'Space', 'Alt', '◄', '▼', '►', 'Ctrl'
@@ -28,7 +28,7 @@ const KEY_RUS = [
 
 const KEY_CODE_TABLE = [
   'Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace',
-  'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash',
+  'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash', 'Delete',
   'CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter',
   'ShiftLeft', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', 'ArrowUp', 'ShiftRight',
   'ControlLeft', 'MetaLeft', 'AltLeft', 'Space', 'AltRight', 'ArrowLeft', 'ArrowDown', 'ArrowRight', 'ControlRight'
@@ -54,8 +54,9 @@ console.log(localStorage.getItem('lang'));
   TITLE.node.textContent = 'Виртуальная клавиатура';
 
   const MAIN = new Element(WRAPPER.node, 'main', 'main');
-  MAIN.node.innerHTML = `<textarea class = "textarea" rows="5" cols="50" disabled></textarea>`
-  // MAIN.node.innerHTML = `<textarea class = "textarea" rows="5" cols="50" autofocus></textarea>`
+  // MAIN.node.innerHTML = `<textarea class = "textarea" rows="5" cols="50" disabled></textarea>`
+  MAIN.node.innerHTML = `<textarea class = "textarea" rows="5" cols="50" autofocus></textarea>`
+  // MAIN.node.innerHTML = `<textarea class = "textarea" rows="5" cols="50"></textarea>`
   const TEXTAREA = document.querySelector('.textarea');
 
   const KEYBOARD = new Element(MAIN.node, 'div', 'keyboard');
@@ -104,6 +105,25 @@ console.log(localStorage.getItem('lang'));
       }
     })
   })
+
+
+  //события текстареа
+  TEXTAREA.addEventListener ('blur', () => {
+    TEXTAREA.focus();
+  })
+
+  document.querySelector('textarea').addEventListener('keydown', e => e.preventDefault());
+  document.querySelector('textarea').addEventListener('keyup', e => e.preventDefault());
+
+
+  document.querySelectorAll('.keyboard__key').forEach(element => {
+    element.addEventListener('mouseup', () => {
+      TEXTAREA.focus();
+      useKeyUp(element.dataset.keycode);
+    })
+  })
+
+
 
   //Добавление класса
   function addClass(arr) {
@@ -186,18 +206,31 @@ console.log(localStorage.getItem('lang'));
   }
 
   function deleteElement(element) {
+    let textCursorPosition = TEXTAREA.selectionStart;
     if (element === 'Backspace') {
-      console.log(TEXTAREA.value.length)
       TEXTAREA.value = TEXTAREA.value.substring(0, TEXTAREA.value.length - 1);
+      TEXTAREA.setSelectionRange(textCursorPosition - 1, textCursorPosition - 1);
     }
+    if (element === 'Delete') {
+      // let textCursorPosition = TEXTAREA.selectionStart;
+      TEXTAREA.value = TEXTAREA.value.slice(0, textCursorPosition)+ TEXTAREA.value.slice(textCursorPosition + 1, TEXTAREA.value.length);
+      // console.log(TEXTAREA.value.replace((TEXTAREA.value.slice(TEXTAREA.selectionStart, TEXTAREA.value.length)), ''));
+      // TEXTAREA.value = TEXTAREA.value.slice(0, TEXTAREA.selectionStart)
+      //   + TEXTAREA.value.slice(input.selectionStart + 1, TEXTAREA.value.length);
+      TEXTAREA.setSelectionRange(textCursorPosition, textCursorPosition);
+
+      // TEXTAREA.value = TEXTAREA.value.substring(0, TEXTAREA.value.length - 1);
+    }
+
   }
+
+
 
 //Изменение языка
     function changeLanguage(element) {
     //
     //   console.log(keyArr[0] == 'ControlLeft')
     //   console.log(keyArr)
-      console.log(engLanguage)
     // if (keyArr[0] == 'ControlLeft' && element === 'AltLeft') {
     // if (element === 'ControlLeft' && element === 'AltLeft') {
     //   keyArr.splice(0,keyArr.length);
@@ -271,7 +304,7 @@ console.log(localStorage.getItem('lang'));
   //Вывод текста в textarea
   document.querySelectorAll('.keyboard__key').forEach(element => {
     element.addEventListener('mousedown', () => {
-      // TEXTAREA.focus();
+      TEXTAREA.focus();
       useKey(element.dataset.keycode);
       capsLock(element.dataset.keycode);
       deleteElement(element.dataset.keycode);
@@ -281,22 +314,11 @@ console.log(localStorage.getItem('lang'));
     })
   })
 
-  // //события текстареа
-  // TEXTAREA.addEventListener ('blur', () => {
-  //   TEXTAREA.focus();
-  // })
 
-
-  document.querySelectorAll('.keyboard__key').forEach(element => {
-    element.addEventListener('mouseup', () => {
-      // TEXTAREA.focus();
-      useKeyUp(element.dataset.keycode);
-    })
-  })
 
   //События на клавиатуре
   window.addEventListener('keydown', function (event) {
-    // TEXTAREA.focus();
+    TEXTAREA.focus();
     // changeLanguage(event.code);
     // prepareChange(event.code);
     useKey(event.code);
@@ -314,7 +336,7 @@ console.log(localStorage.getItem('lang'));
 
   window.addEventListener('keyup', function (event) {
     useKeyUp(event.code);
-    // TEXTAREA.focus();
+    TEXTAREA.focus();
     let elements = document.querySelectorAll('.keyboard__key');
     for (let i = 0; i < elements.length; i++) {
       if (elements[i].dataset.keycode === `${event.code}`) {

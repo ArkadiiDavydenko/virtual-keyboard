@@ -1,8 +1,5 @@
 .keyboard {
   @include flex-block (column);
-  //display: flex;
-  //flex-direction: column;
-  //width: 100%;
   padding: 5px 0;
   background: $color-keyboard;
   box-shadow: 0 0 10px $color-keyboard-shadow;
@@ -12,9 +9,6 @@
 
 .keyboard__line {
   @include flex-block (row);
-  //display: flex;
-  //flex-direction: row;
-  //width: 100%;
 }
 
 .keyboard__key {
