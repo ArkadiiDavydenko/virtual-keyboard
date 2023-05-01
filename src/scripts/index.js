@@ -7,8 +7,6 @@ class Element {
     this.node = elem;
   }
 }
-// console.log(new Element(document.body, 'div', 'wrapper'));
-
 
 const KEY_ENG = [
   ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',],
@@ -19,7 +17,7 @@ const KEY_ENG = [
 ];
 
 const KEY_RUS = [
-  '`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
+  'ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
   'Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\', 'Del',
   'Caps lock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter',
   'Shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', '▲', 'Shift',
@@ -36,33 +34,20 @@ const KEY_CODE_TABLE = [
 
 function init() {
   let upperLetter = false;
-
-  // let engLanguage = true;
   let engLanguage;
-  // console.log(engLanguage)
-  // localStorage.getItem('lang')?localStorage.getItem('lang'):engLanguage = 'en';
-  // localStorage.setItem('lang', `${engLanguage}`);
-console.log(localStorage.getItem('lang'));
-// console.log(localStorage.getItem('lang'));
-// console.log("localStorage");
-// localStorage.setItem('lang', `${engLanguage}`);
-  // localStorage.getItem('lang') === 'ru'
-
   const WRAPPER = new Element(document.body, 'div', 'wrapper');
   const HEADER = new Element(WRAPPER.node, 'header', 'header');
   const TITLE = new Element(HEADER.node, 'h1', 'title');
   TITLE.node.textContent = 'Виртуальная клавиатура';
 
   const MAIN = new Element(WRAPPER.node, 'main', 'main');
-  // MAIN.node.innerHTML = `<textarea class = "textarea" rows="5" cols="50" disabled></textarea>`
-  MAIN.node.innerHTML = `<textarea class = "textarea" rows="5" cols="50" autofocus></textarea>`
-  // MAIN.node.innerHTML = `<textarea class = "textarea" rows="5" cols="50"></textarea>`
+  MAIN.node.innerHTML = `<textarea class = "textarea" rows="5" cols="50" autofocus></textarea>`;
+
   const TEXTAREA = document.querySelector('.textarea');
-
   const KEYBOARD = new Element(MAIN.node, 'div', 'keyboard');
-
   const DESCRIPTION = new Element(MAIN.node, 'p', 'description');
   DESCRIPTION.node.textContent = 'Клавиатура создана для операционной системе Windows';
+
   const LANGUAGE = new Element(MAIN.node, 'p', 'language');
   LANGUAGE.node.textContent = 'Для переключения языка комбинация: левыe ctrl + alt';
 
@@ -108,13 +93,10 @@ console.log(localStorage.getItem('lang'));
 
 
   //события текстареа
-  TEXTAREA.addEventListener ('blur', () => {
+  TEXTAREA.addEventListener('blur', () => {
     TEXTAREA.focus();
   })
-
   document.querySelector('textarea').addEventListener('keydown', e => e.preventDefault());
-  document.querySelector('textarea').addEventListener('keyup', e => e.preventDefault());
-
 
   document.querySelectorAll('.keyboard__key').forEach(element => {
     element.addEventListener('mouseup', () => {
@@ -122,7 +104,6 @@ console.log(localStorage.getItem('lang'));
       useKeyUp(element.dataset.keycode);
     })
   })
-
 
 
   //Добавление класса
@@ -207,61 +188,41 @@ console.log(localStorage.getItem('lang'));
 
   function deleteElement(element) {
     let textCursorPosition = TEXTAREA.selectionStart;
-    if (element === 'Backspace') {
-      TEXTAREA.value = TEXTAREA.value.substring(0, TEXTAREA.value.length - 1);
+    if (element === 'Backspace' && textCursorPosition !== 0) {
+      TEXTAREA.value = TEXTAREA.value.slice(0, TEXTAREA.selectionStart - 1) + TEXTAREA.value.slice(textCursorPosition, TEXTAREA.value.length);
       TEXTAREA.setSelectionRange(textCursorPosition - 1, textCursorPosition - 1);
     }
     if (element === 'Delete') {
-      // let textCursorPosition = TEXTAREA.selectionStart;
-      TEXTAREA.value = TEXTAREA.value.slice(0, textCursorPosition)+ TEXTAREA.value.slice(textCursorPosition + 1, TEXTAREA.value.length);
-      // console.log(TEXTAREA.value.replace((TEXTAREA.value.slice(TEXTAREA.selectionStart, TEXTAREA.value.length)), ''));
-      // TEXTAREA.value = TEXTAREA.value.slice(0, TEXTAREA.selectionStart)
-      //   + TEXTAREA.value.slice(input.selectionStart + 1, TEXTAREA.value.length);
+      TEXTAREA.value = TEXTAREA.value.slice(0, textCursorPosition) + TEXTAREA.value.slice(textCursorPosition + 1, TEXTAREA.value.length);
       TEXTAREA.setSelectionRange(textCursorPosition, textCursorPosition);
-
-      // TEXTAREA.value = TEXTAREA.value.substring(0, TEXTAREA.value.length - 1);
     }
-
   }
-
-
 
 //Изменение языка
-    function changeLanguage(element) {
-    //
-    //   console.log(keyArr[0] == 'ControlLeft')
-    //   console.log(keyArr)
-    // if (keyArr[0] == 'ControlLeft' && element === 'AltLeft') {
-    // if (element === 'ControlLeft' && element === 'AltLeft') {
-    //   keyArr.splice(0,keyArr.length);
-      if (engLanguage=== 'en') {
-        let elements = document.querySelectorAll('.keyboard__key');
-        for (let i = 0; i < elements.length; i++) {
-          elements[i].textContent = `${KEY_RUS[i]}`;
-        }
-        // engLanguage = false;
-        engLanguage = 'ru';
-        localStorage.setItem('lang', `${engLanguage}`);
-      } else {
-        console.log('2')
-        let arrEng = KEY_ENG.flat();
-        let elements = document.querySelectorAll('.keyboard__key');
-        for (let i = 0; i < elements.length; i++) {
-          elements[i].textContent = `${arrEng[i]}`;
-        }
-        // engLanguage = true;
-        engLanguage = 'en';
-        localStorage.setItem('lang', `${engLanguage}`);
-      // }
+  function changeLanguage() {
+    if (engLanguage === 'en') {
+      let elements = document.querySelectorAll('.keyboard__key');
+      for (let i = 0; i < elements.length; i++) {
+        elements[i].textContent = `${KEY_RUS[i]}`;
+      }
+      engLanguage = 'ru';
+      localStorage.setItem('lang', `${engLanguage}`);
+    } else {
+      let arrEng = KEY_ENG.flat();
+      let elements = document.querySelectorAll('.keyboard__key');
+      for (let i = 0; i < elements.length; i++) {
+        elements[i].textContent = `${arrEng[i]}`;
+      }
+      engLanguage = 'en';
+      localStorage.setItem('lang', `${engLanguage}`);
     }
   }
 
-  function runOnKeys(func, ...codes) {
+  function catchClicks(func, ...codes) {
     let pressed = new Set();
 
-    document.addEventListener('keydown', function(event) {
+    document.addEventListener('keydown', function (event) {
       pressed.add(event.code);
-
       for (let code of codes) {
         if (!pressed.has(code)) {
           return;
@@ -270,18 +231,12 @@ console.log(localStorage.getItem('lang'));
       pressed.clear();
       func();
     });
-    document.addEventListener('keyup', function(event) {
+    document.addEventListener('keyup', function (event) {
       pressed.delete(event.code);
     });
 
   }
-
-  runOnKeys(
-    () => changeLanguage(),
-    "ControlLeft",
-    "AltLeft"
-  );
-
+  catchClicks(() => changeLanguage(), "ControlLeft", "AltLeft");
 
   function capsLock(element) {
     if (element === 'CapsLock') {
@@ -300,7 +255,6 @@ console.log(localStorage.getItem('lang'));
     }
   }
 
-
   //Вывод текста в textarea
   document.querySelectorAll('.keyboard__key').forEach(element => {
     element.addEventListener('mousedown', () => {
@@ -314,13 +268,9 @@ console.log(localStorage.getItem('lang'));
     })
   })
 
-
-
   //События на клавиатуре
   window.addEventListener('keydown', function (event) {
     TEXTAREA.focus();
-    // changeLanguage(event.code);
-    // prepareChange(event.code);
     useKey(event.code);
     capsLock(event.code);
     deleteElement(event.code);
@@ -346,19 +296,14 @@ console.log(localStorage.getItem('lang'));
   });
 
 
-  //Установка языка при обнавлении
+  //Установка языка при обновлении
   if (!localStorage.getItem('lang')) {
-    console.log('1')
     engLanguage = 'en'
     localStorage.setItem('lang', `${engLanguage}`);
-  }
-  else if (localStorage.getItem('lang') === 'en') {
+  } else if (localStorage.getItem('lang') === 'en') {
     engLanguage = 'en'
-    console.log('1en')
-  }
-  else {
+  } else {
     engLanguage = 'ru'
-    console.log('1ru')
     let elements = document.querySelectorAll('.keyboard__key');
     for (let i = 0; i < elements.length; i++) {
       elements[i].textContent = `${KEY_RUS[i]}`;
@@ -367,10 +312,6 @@ console.log(localStorage.getItem('lang'));
   }
 
 }
-
-// window.addEventListener('DOMContentLoaded', () => {
-//   document.querySelector('.textarea').focus();
-// });
 
 
 window.addEventListener('DOMContentLoaded', init);
