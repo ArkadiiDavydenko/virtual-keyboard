@@ -238,6 +238,13 @@ function init() {
   }
 
   catchClicks(() => changeLanguage(), "ControlLeft", "AltLeft");
+  catchClicks(() => showRightAlt (), "ControlLeft", "AltRight");
+
+  function showRightAlt () {
+    let leftCtrl = document.querySelector('[data-keycode="ControlLeft"]');
+    leftCtrl.classList.remove('keyboard__key_active');
+
+  }
 
   function capsLock(element) {
     if (element === 'CapsLock') {
@@ -291,7 +298,7 @@ function init() {
     let elements = document.querySelectorAll('.keyboard__key');
     for (let i = 0; i < elements.length; i++) {
       if (elements[i].dataset.keycode === `${event.code}`) {
-        elements[i].classList.remove('keyboard__key_active')
+        elements[i].classList.remove('keyboard__key_active');
       }
     }
   });
