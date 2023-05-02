@@ -9,7 +9,7 @@ class Element {
 }
 
 const KEY_ENG = [
-  ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',],
+  ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
   ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\', 'Del'],
   ['Caps lock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '"', 'Enter'],
   ['Shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '?', '▲', 'Shift'],
@@ -51,7 +51,7 @@ function init() {
   const LANGUAGE = new Element(MAIN.node, 'p', 'language');
   LANGUAGE.node.textContent = 'Для переключения языка комбинация: левыe ctrl + alt';
 
-  KEY_ENG.forEach(keyArr => {
+  KEY_ENG.forEach((keyArr) => {
     let keyLine = new Element(KEYBOARD.node, 'div', 'keyboard__line');
     keyArr.forEach(key => {
       let keyButton = new Element(keyLine.node, 'button', 'keyboard__key');
@@ -59,34 +59,34 @@ function init() {
 
       switch (key) {
         case 'Backspace':
-          keyButton.node.classList.add('keyboard__key_very-long')
-          keyButton.node.classList.add('backspace')
-          break
+          keyButton.node.classList.add('keyboard__key_very-long');
+          keyButton.node.classList.add('backspace');
+          break;
 
         case 'Tab':
-          keyButton.node.classList.add('keyboard__key_long')
-          keyButton.node.classList.add('tab')
-          break
+          keyButton.node.classList.add('keyboard__key_long');
+          keyButton.node.classList.add('tab');
+          break;
 
         case 'Shift':
-          keyButton.node.classList.add('keyboard__key_long')
-          keyButton.node.classList.add('shift')
-          break
+          keyButton.node.classList.add('keyboard__key_long');
+          keyButton.node.classList.add('shift');
+          break;
 
         case 'Enter':
-          keyButton.node.classList.add('keyboard__key_long')
-          keyButton.node.classList.add('enter')
-          break
+          keyButton.node.classList.add('keyboard__key_long');
+          keyButton.node.classList.add('enter');
+          break;
 
         case 'Caps lock':
-          keyButton.node.classList.add('keyboard__key_long')
-          keyButton.node.classList.add('caps-lock')
-          break
+          keyButton.node.classList.add('keyboard__key_long');
+          keyButton.node.classList.add('caps-lock');
+          break;
 
         case 'Space':
-          keyButton.node.classList.add('keyboard__key_extra-long')
-          keyButton.node.classList.add('space')
-          break
+          keyButton.node.classList.add('keyboard__key_extra-long');
+          keyButton.node.classList.add('space');
+          break;
       }
     })
   })
@@ -236,6 +236,7 @@ function init() {
     });
 
   }
+
   catchClicks(() => changeLanguage(), "ControlLeft", "AltLeft");
 
   function capsLock(element) {
@@ -294,7 +295,6 @@ function init() {
       }
     }
   });
-
 
   //Установка языка при обновлении
   if (!localStorage.getItem('lang')) {
