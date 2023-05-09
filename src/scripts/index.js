@@ -1,3 +1,5 @@
+import '../sass/style.scss';
+
 // Создание основной разметки
 class Element {
   constructor(parent, tag, setClassName = '') {
@@ -319,6 +321,5 @@ function init() {
   }
 
 }
-
 
 window.addEventListener('DOMContentLoaded', init);
