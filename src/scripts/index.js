@@ -10,7 +10,7 @@ class Element {
   }
 }
 
-const KEY_ENG = [
+const key_eng = [
   ['`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace'],
   ['Tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\', 'Del'],
   ['Caps lock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '"', 'Enter'],
@@ -18,7 +18,7 @@ const KEY_ENG = [
   ['Ctrl', 'Win', 'Alt', 'Space', 'Alt', '◄', '▼', '►', 'Ctrl']
 ];
 
-const KEY_RUS = [
+const key_rus = [
   'ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'Backspace',
   'Tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', '\\', 'Del',
   'Caps lock', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', 'Enter',
@@ -26,7 +26,7 @@ const KEY_RUS = [
   'Ctrl', 'Win', 'Alt', 'Space', 'Alt', '◄', '▼', '►', 'Ctrl'
 ];
 
-const KEY_CODE_TABLE = [
+const key_code_table = [
   'Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'Backspace',
   'Tab', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash', 'Delete',
   'CapsLock', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'Enter',
@@ -36,25 +36,25 @@ const KEY_CODE_TABLE = [
 
 function init() {
   let upperLetter = false;
-  let engLanguage;
-  const WRAPPER = new Element(document.body, 'div', 'wrapper');
-  const HEADER = new Element(WRAPPER.node, 'header', 'header');
-  const TITLE = new Element(HEADER.node, 'h1', 'title');
-  TITLE.node.textContent = 'Виртуальная клавиатура';
+  let englanguage;
+  const wrapper = new Element(document.body, 'div', 'wrapper');
+  const header = new Element(wrapper.node, 'header', 'header');
+  const title = new Element(header.node, 'h1', 'title');
+  title.node.textContent = 'Виртуальная клавиатура';
 
-  const MAIN = new Element(WRAPPER.node, 'main', 'main');
-  MAIN.node.innerHTML = `<textarea class = "textarea" rows="5" cols="50" autofocus></textarea>`;
+  const main = new Element(wrapper.node, 'main', 'main');
+  main.node.innerHTML = `<textarea class = "textarea" rows="5" cols="50" autofocus></textarea>`;
 
-  const TEXTAREA = document.querySelector('.textarea');
-  const KEYBOARD = new Element(MAIN.node, 'div', 'keyboard');
-  const DESCRIPTION = new Element(MAIN.node, 'p', 'description');
-  DESCRIPTION.node.textContent = 'Клавиатура создана для операционной системе Windows';
+  const textarea = document.querySelector('.textarea');
+  const keyboard = new Element(main.node, 'div', 'keyboard');
+  const description = new Element(main.node, 'p', 'description');
+  description.node.textContent = 'Клавиатура создана для операционной системе Windows';
 
-  const LANGUAGE = new Element(MAIN.node, 'p', 'language');
-  LANGUAGE.node.textContent = 'Для переключения языка комбинация: левыe ctrl + alt';
+  const language = new Element(main.node, 'p', 'language');
+  language.node.textContent = 'Для переключения языка комбинация: левыe ctrl + alt';
 
-  KEY_ENG.forEach((keyArr) => {
-    let keyLine = new Element(KEYBOARD.node, 'div', 'keyboard__line');
+  key_eng.forEach((keyArr) => {
+    let keyLine = new Element(keyboard.node, 'div', 'keyboard__line');
     keyArr.forEach(key => {
       let keyButton = new Element(keyLine.node, 'button', 'keyboard__key');
       keyButton.node.textContent = `${key}`;
@@ -95,14 +95,14 @@ function init() {
 
 
   //события текстареа
-  TEXTAREA.addEventListener('blur', () => {
-    TEXTAREA.focus();
+  textarea.addEventListener('blur', () => {
+    textarea.focus();
   })
   document.querySelector('textarea').addEventListener('keydown', e => e.preventDefault());
 
   document.querySelectorAll('.keyboard__key').forEach(element => {
     element.addEventListener('mouseup', () => {
-      TEXTAREA.focus();
+      textarea.focus();
       useKeyUp(element.dataset.keycode);
     })
   })
@@ -116,12 +116,12 @@ function init() {
     }
   }
 
-  addClass(KEY_CODE_TABLE);
+  addClass(key_code_table);
 
   function useKey(element) {
     switch (element) {
       case 'Tab':
-        TEXTAREA.value += '    ';
+        textarea.value += '    ';
         break
       case 'ShiftLeft':
         if (!upperLetter) {
@@ -150,10 +150,10 @@ function init() {
         }
         break
       case 'Enter':
-        TEXTAREA.value += '\n';
+        textarea.value += '\n';
         break
       case 'Space':
-        TEXTAREA.value += ' ';
+        textarea.value += ' ';
         break
     }
   }
@@ -189,34 +189,34 @@ function init() {
   }
 
   function deleteElement(element) {
-    let textCursorPosition = TEXTAREA.selectionStart;
+    let textCursorPosition = textarea.selectionStart;
     if (element === 'Backspace' && textCursorPosition !== 0) {
-      TEXTAREA.value = TEXTAREA.value.slice(0, TEXTAREA.selectionStart - 1) + TEXTAREA.value.slice(textCursorPosition, TEXTAREA.value.length);
-      TEXTAREA.setSelectionRange(textCursorPosition - 1, textCursorPosition - 1);
+      textarea.value = textarea.value.slice(0, textarea.selectionStart - 1) + textarea.value.slice(textCursorPosition, textarea.value.length);
+      textarea.setSelectionRange(textCursorPosition - 1, textCursorPosition - 1);
     }
     if (element === 'Delete') {
-      TEXTAREA.value = TEXTAREA.value.slice(0, textCursorPosition) + TEXTAREA.value.slice(textCursorPosition + 1, TEXTAREA.value.length);
-      TEXTAREA.setSelectionRange(textCursorPosition, textCursorPosition);
+      textarea.value = textarea.value.slice(0, textCursorPosition) + textarea.value.slice(textCursorPosition + 1, textarea.value.length);
+      textarea.setSelectionRange(textCursorPosition, textCursorPosition);
     }
   }
 
 //Изменение языка
-  function changeLanguage() {
-    if (engLanguage === 'en') {
+  function changelanguage() {
+    if (englanguage === 'en') {
       let elements = document.querySelectorAll('.keyboard__key');
       for (let i = 0; i < elements.length; i++) {
-        elements[i].textContent = `${KEY_RUS[i]}`;
+        elements[i].textContent = `${key_rus[i]}`;
       }
-      engLanguage = 'ru';
-      localStorage.setItem('lang', `${engLanguage}`);
+      englanguage = 'ru';
+      localStorage.setItem('lang', `${englanguage}`);
     } else {
-      let arrEng = KEY_ENG.flat();
+      let arrEng = key_eng.flat();
       let elements = document.querySelectorAll('.keyboard__key');
       for (let i = 0; i < elements.length; i++) {
         elements[i].textContent = `${arrEng[i]}`;
       }
-      engLanguage = 'en';
-      localStorage.setItem('lang', `${engLanguage}`);
+      englanguage = 'en';
+      localStorage.setItem('lang', `${englanguage}`);
     }
   }
 
@@ -239,7 +239,7 @@ function init() {
 
   }
 
-  catchClicks(() => changeLanguage(), "ControlLeft", "AltLeft");
+  catchClicks(() => changelanguage(), "ControlLeft", "AltLeft");
   catchClicks(() => showRightAlt (), "ControlLeft", "AltRight");
 
   function showRightAlt () {
@@ -268,19 +268,19 @@ function init() {
   //Вывод текста в textarea
   document.querySelectorAll('.keyboard__key').forEach(element => {
     element.addEventListener('mousedown', () => {
-      TEXTAREA.focus();
+      textarea.focus();
       useKey(element.dataset.keycode);
       capsLock(element.dataset.keycode);
       deleteElement(element.dataset.keycode);
       if (element.textContent.length < 2) {
-        TEXTAREA.value += element.textContent;
+        textarea.value += element.textContent;
       }
     })
   })
 
   //События на клавиатуре
   window.addEventListener('keydown', function (event) {
-    TEXTAREA.focus();
+    textarea.focus();
     useKey(event.code);
     capsLock(event.code);
     deleteElement(event.code);
@@ -289,14 +289,14 @@ function init() {
 
       if (elements[i].dataset.keycode === `${event.code}`) {
         elements[i].classList.add('keyboard__key_active');
-        if (elements[i].textContent.length < 2) TEXTAREA.value += elements[i].textContent;
+        if (elements[i].textContent.length < 2) textarea.value += elements[i].textContent;
       }
     }
   });
 
   window.addEventListener('keyup', function (event) {
     useKeyUp(event.code);
-    TEXTAREA.focus();
+    textarea.focus();
     let elements = document.querySelectorAll('.keyboard__key');
     for (let i = 0; i < elements.length; i++) {
       if (elements[i].dataset.keycode === `${event.code}`) {
@@ -307,17 +307,17 @@ function init() {
 
   //Установка языка при обновлении
   if (!localStorage.getItem('lang')) {
-    engLanguage = 'en'
-    localStorage.setItem('lang', `${engLanguage}`);
+    englanguage = 'en'
+    localStorage.setItem('lang', `${englanguage}`);
   } else if (localStorage.getItem('lang') === 'en') {
-    engLanguage = 'en'
+    englanguage = 'en'
   } else {
-    engLanguage = 'ru'
+    englanguage = 'ru'
     let elements = document.querySelectorAll('.keyboard__key');
     for (let i = 0; i < elements.length; i++) {
-      elements[i].textContent = `${KEY_RUS[i]}`;
+      elements[i].textContent = `${key_rus[i]}`;
     }
-    localStorage.setItem('lang', `${engLanguage}`);
+    localStorage.setItem('lang', `${englanguage}`);
   }
 
 }
