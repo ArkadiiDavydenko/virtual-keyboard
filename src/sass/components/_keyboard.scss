@@ -1,0 +1,60 @@
+.keyboard {
+  @include flex-block (column);
+  padding: 5px 0;
+  background: $color-keyboard;
+  box-shadow: 0 0 10px $color-keyboard-shadow;
+  user-select: none;
+  transition: bottom 0.4s;
+}
+
+.keyboard__line {
+  @include flex-block (row);
+}
+
+.keyboard__key {
+  height: 45px;
+  width: 6%;
+  margin: 3px;
+  border-radius: 4px;
+  border: none;
+  background: #969595;
+  color: $color-button;
+  font-size: 1.05rem;
+  outline: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: top;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.1s;
+  flex: 0.5 1 45px;
+
+}
+
+.keyboard__key:hover {
+  box-shadow: 0 0 10px rgb(4, 6, 121);
+}
+
+.keyboard__key:active {
+  border-radius: 35%;
+  box-shadow: 0 0 17px rgb(8, 9, 112);
+}
+.keyboard__key_active {
+  border-radius: 35%;
+  box-shadow: 0 0 17px rgb(8, 9, 112);
+  transition: all 0.1s;
+}
+
+.keyboard__key_long {
+  flex: 4 1 45px;
+}
+
+.keyboard__key_very-long {
+  flex: 4 1 45px;
+}
+
+.keyboard__key_extra-long {
+  flex: 20 1 45px;
+}
